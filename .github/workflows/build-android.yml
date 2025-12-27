@@ -19,23 +19,27 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install Ionic and Capacitor
-        run: npm install -g @ionic/cli @capacitor/cli
+      - name: Install Tools
+        run: npm install -g @capacitor/cli
 
-      - name: Create Project From Scratch
+      - name: Create Project and Build
         run: |
-          # اگر فایل package.json نیست، یکی ساده بساز
-          if [ ! -f package.json ]; then
-            npm init -y
-          fi
+          # حذف فایل‌های احتمالی قدیمی برای جلوگیری از تداخل
+          rm -f package.json capacitor.config.json
+          rm -rf android
+          
+          # ساخت فایل پروژه جدید
+          npm init -y
           npm install @capacitor/core @capacitor/android
-          # مقداردهی اولیه به اجبار
-          npx cap init "Gildokht" "com.gildokht.app" --web-dir . --confirm
+          
+          # مقداردهی اولیه (بدون کلمه confirm)
+          npx cap init "Gildokht" "com.gildokht.app" --web-dir .
+          
+          # اضافه کردن اندروید و کپی فایل‌ها
           npx cap add android
           npx cap copy
           
-      - name: Build APK
-        run: |
+          # ساخت فایل نصب
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
