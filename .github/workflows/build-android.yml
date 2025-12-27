@@ -19,18 +19,23 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Create Base Files
-        run: |
-          if [ ! -f package.json ]; then
-            echo '{"name": "gildokht-app","version": "1.0.0","dependencies": {"@capacitor/android": "^5.0.0","@capacitor/cli": "^5.0.0","@capacitor/core": "^5.0.0"}}' > package.json
-          fi
+      - name: Install Ionic and Capacitor
+        run: npm install -g @ionic/cli @capacitor/cli
 
-      - name: Install and Build
+      - name: Create Project From Scratch
         run: |
-          npm install
+          # اگر فایل package.json نیست، یکی ساده بساز
+          if [ ! -f package.json ]; then
+            npm init -y
+          fi
+          npm install @capacitor/core @capacitor/android
+          # مقداردهی اولیه به اجبار
           npx cap init "Gildokht" "com.gildokht.app" --web-dir . --confirm
-          npx cap add android || true
+          npx cap add android
           npx cap copy
+          
+      - name: Build APK
+        run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
