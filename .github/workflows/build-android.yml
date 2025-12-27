@@ -19,21 +19,19 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install Dependencies and Build Android
+      - name: Install Tools & Build
         run: |
+          # نصب ابزارهای اصلی
           npm install @capacitor/cli @capacitor/core @capacitor/android
-          # مقداردهی اولیه خازن (Capacitor)
-          npx cap init "Gildokht" "com.gildokht.app" --web-dir .
-          # اضافه کردن پلتفرم اندروید
-          npx cap add android
-          # کپی کردن فایل‌های وب به پروژه اندروید
+          
+          # مقداردهی اولیه (اگر فایل تنظیمات نیست، خودش می‌سازد)
+          npx cap init "Gildokht" "com.gildokht.app" --web-dir . --confirm
+          
+          # اضافه کردن پلتفرم اندروید (حیاتی)
+          npx cap add android || true
+          
+          # کپی فایل‌ها و ساخت APK
           npx cap copy
-          # ورود به پوشه اندروید و ساخت فایل APK
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
