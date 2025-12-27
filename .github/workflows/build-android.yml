@@ -22,24 +22,26 @@ jobs:
       - name: Install Tools
         run: npm install -g @capacitor/cli
 
-      - name: Create Project and Build
+      - name: Prepare Web Directory and Build
         run: |
-          # حذف فایل‌های احتمالی قدیمی برای جلوگیری از تداخل
-          rm -f package.json capacitor.config.json
+          # پاکسازی تداخل‌های قبلی
           rm -rf android
           
-          # ساخت فایل پروژه جدید
+          # ایجاد پوشه www و انتقال فایل‌های وب به آن
+          mkdir -p www
+          cp index.html news.html www/ 2>/dev/null || true
+          
+          # ساخت فایل پروژه
           npm init -y
           npm install @capacitor/core @capacitor/android
           
-          # مقداردهی اولیه (بدون کلمه confirm)
-          npx cap init "Gildokht" "com.gildokht.app" --web-dir .
+          # مقداردهی اولیه با پوشه www
+          npx cap init "Gildokht" "com.gildokht.app" --web-dir www
           
-          # اضافه کردن اندروید و کپی فایل‌ها
+          # ساخت اندروید
           npx cap add android
           npx cap copy
           
-          # ساخت فایل نصب
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
