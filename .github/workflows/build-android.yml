@@ -19,17 +19,17 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install Capacitor Tools
-        run: npm install @capacitor/cli @capacitor/core @capacitor/android
-
-      - name: Initialize Project
-        run: npx cap init "Gildokht" "com.gildokht.app" --web-dir . --confirm
-
-      - name: Create Android Folder
-        run: npx cap add android || true
-
-      - name: Sync and Build APK
+      - name: Create Base Files
         run: |
+          if [ ! -f package.json ]; then
+            echo '{"name": "gildokht-app","version": "1.0.0","dependencies": {"@capacitor/android": "^5.0.0","@capacitor/cli": "^5.0.0","@capacitor/core": "^5.0.0"}}' > package.json
+          fi
+
+      - name: Install and Build
+        run: |
+          npm install
+          npx cap init "Gildokht" "com.gildokht.app" --web-dir . --confirm
+          npx cap add android || true
           npx cap copy
           cd android
           chmod +x gradlew
