@@ -24,13 +24,19 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install and Build
+      - name: Install Dependencies and Build Android
         run: |
           npm install @capacitor/cli @capacitor/core @capacitor/android
+          # مقداردهی اولیه خازن (Capacitor)
           npx cap init "Gildokht" "com.gildokht.app" --web-dir .
-          npx cap add android || true
+          # اضافه کردن پلتفرم اندروید
+          npx cap add android
+          # کپی کردن فایل‌های وب به پروژه اندروید
           npx cap copy
-          cd android && chmod +x gradlew && ./gradlew assembleDebug
+          # ورود به پوشه اندروید و ساخت فایل APK
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
