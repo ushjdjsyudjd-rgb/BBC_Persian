@@ -1,4 +1,4 @@
-name: Build Signed Android APK
+name: Build Official Signed APK
 on:
   push:
     branches: [ main ]
@@ -7,8 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    permissions: contents: write
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
@@ -28,9 +27,8 @@ jobs:
         run: |
           mkdir -p www
           cp index.html www/
-          # آماده‌سازی پوشه assets برای آیکون‌ها
           mkdir -p assets
-          cp icon.png assets/icon.png 2>/dev/null || cp icon.png icon.png
+          cp icon.png assets/icon.png
 
       - name: Initialize and Create Android
         run: |
@@ -38,14 +36,12 @@ jobs:
           npx cap init "Gildokht" "com.gildokht.app" --web-dir www
           npx cap add android
 
-      - name: Generate Icons (Remove White Borders)
+      - name: Generate Adaptive Icons
         run: |
-          # کپی کردن آیکون برای لایه‌های مختلف جهت حذف حاشیه سفید
-          cp icon.png assets/icon-only.png 2>/dev/null || true
+          # کپی کردن آیکون برای تمام لایه‌ها جهت حذف سفیدی و سیاهی دور آیکون
           cp icon.png assets/icon-foreground.png
           cp icon.png assets/icon-background.png
-          
-          # تولید آیکون‌های تطبیقی (Adaptive Icons) برای اندروید
+          cp icon.png assets/splash.png
           npx capacitor-assets generate --android
 
       - name: Build and Sign APK
@@ -53,17 +49,14 @@ jobs:
           npx cap copy
           cd android
           chmod +x gradlew
-          # ساخت نسخه نهایی (Release)
           ./gradlew assembleRelease
-          
-          # ساخت کلید امنیتی اختصاصی برای گیلدخت
+          # ساخت کلید ساین
           keytool -genkey -v -keystore release.keystore -alias gildokht_alias -keyalg RSA -keysize 2048 -validity 10000 -storepass 123456 -keypass 123456 -dname "CN=Gildokht, OU=Dev, O=Gildokht, L=Rasht, S=Gilan, C=IR"
-          
-          # ساین کردن نهایی فایل APK
+          # امضای نهایی
           sudo apt-get install -y apksigner
           apksigner sign --ks release.keystore --ks-pass pass:123456 --out app-release-signed.apk app/build/outputs/apk/release/app-release-unsigned.apk
 
-      - name: Upload Official Signed APK
+      - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
           name: Gildokht-Official-Signed-APK
