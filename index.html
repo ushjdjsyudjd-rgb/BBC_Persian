@@ -3,59 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <title>شعبه گیل رشت</title>
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0d66a1">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
     
     <style>
         body { font-family: Vazirmatn, sans-serif; background-color: #f8fafc; margin: 0; padding: 16px; -webkit-tap-highlight-color: transparent; }
-        
-        /* کارت اصلی با گوشه‌های گرد */
         .bmi-card {
             background: linear-gradient(135deg, #0d66a1 0%, #228cc8 100%);
             border-radius: 40px; padding: 35px 20px; color: white;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; box-shadow: 0 12px 35px rgba(13, 102, 161, 0.25); gap: 18px;
         }
-        
         .digital-clock {
             font-size: 3.8rem; font-weight: 900; letter-spacing: -2px; line-height: 1;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.3); font-family: sans-serif;
         }
-
-        /* سطرهای خدمات با گوشه‌های گرد */
         .service-row {
             background: white; border-radius: 30px; padding: 18px; margin-bottom: 12px;
             display: flex; align-items: center; justify-content: space-between;
             box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; cursor: pointer;
-            transition: transform 0.2s;
         }
-        .service-row:active { transform: scale(0.98); }
-
         .bottom-card {
             background: white; border-radius: 30px; padding: 25px 15px; width: 48%;
             display: flex; flex-direction: column; align-items: center;
             box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; cursor: pointer;
-            transition: transform 0.2s;
         }
-        .bottom-card:active { transform: scale(0.95); }
-        
-        /* پس‌زمینه شیشه‌ای مودال */
-        .glass-modal {
-            background: rgba(13, 102, 161, 0.15);
+        /* اصلاح نمایش مودال: به صورت پیش‌فرض مخفی */
+        #contactModal {
+            display: none; 
+            background: rgba(13, 102, 161, 0.2);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            display: none;
         }
-
-        /* گرد کردن آیکون‌ها و بخش‌های داخلی */
-        .rounded-super { border-radius: 25px; }
     </style>
 </head>
 <body>
@@ -72,7 +53,7 @@
                 شنبه، ۶ دی ۱۴۰۴
             </div>
 
-            <button onclick="toggleModal(true)" class="mt-2 bg-white/20 hover:bg-white/30 backdrop-blur-lg border border-white/30 px-8 py-3 rounded-full flex items-center gap-3 transition-all active:scale-95 shadow-lg">
+            <button onclick="toggleModal(true)" class="mt-2 bg-white/20 border border-white/30 px-8 py-3 rounded-full flex items-center gap-3 active:scale-95 shadow-lg">
                 <span class="text-lg">📞</span>
                 <span class="text-[13px] font-black text-white">تماس با شعبه</span>
             </button>
@@ -118,31 +99,31 @@
         </div>
     </div>
 
-    <div id="contactModal" class="fixed inset-0 z-50 flex items-center justify-center p-6 glass-modal">
-        <div class="bg-white/90 w-full max-w-sm rounded-[45px] shadow-2xl overflow-hidden border border-white animate-in fade-in zoom-in duration-300">
+    <div id="contactModal" class="fixed inset-0 z-50 flex items-center justify-center p-6">
+        <div class="bg-white/90 w-full max-w-sm rounded-[45px] shadow-2xl overflow-hidden border border-white">
             <div class="p-6 bg-[#0d66a1] text-white flex justify-between items-center rounded-t-[45px]">
-                <span class="font-black text-sm">شماره تماس‌های شعبه</span>
+                <span class="font-black text-sm">تماس با شعبه</span>
                 <button onclick="toggleModal(false)" class="text-3xl font-light">&times;</button>
             </div>
             <div class="p-6 space-y-3">
-                <a href="tel:01333666474" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 active:bg-blue-50 transition-all shadow-sm">
-                    <span class="text-[12px] font-bold text-slate-700 mr-2">ریاست شعبه</span>
-                    <span class="text-[#0d66a1] font-black text-[14px]">01333666474</span>
+                <a href="tel:01333666474" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 active:bg-blue-50 shadow-sm">
+                    <span class="text-[12px] font-bold text-slate-700">ریاست شعبه</span>
+                    <span class="text-[#0d66a1] font-black">01333666474</span>
                 </a>
-                <a href="tel:01333609169" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 active:bg-blue-50 transition-all shadow-sm">
-                    <span class="text-[12px] font-bold text-slate-700 mr-2">معاون شعبه</span>
-                    <span class="text-[#0d66a1] font-black text-[14px]">01333609169</span>
+                <a href="tel:01333609169" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 active:bg-blue-50 shadow-sm">
+                    <span class="text-[12px] font-bold text-slate-700">معاون شعبه</span>
+                    <span class="text-[#0d66a1] font-black">01333609169</span>
                 </a>
-                <a href="tel:01333663062" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 active:bg-blue-50 transition-all shadow-sm">
-                    <span class="text-[12px] font-bold text-slate-700 mr-2">اعتبارات</span>
-                    <span class="text-[#0d66a1] font-black text-[14px]">01333663062</span>
+                <a href="tel:01333663062" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 active:bg-blue-50 shadow-sm">
+                    <span class="text-[12px] font-bold text-slate-700">اعتبارات</span>
+                    <span class="text-[#0d66a1] font-black">01333663062</span>
                 </a>
-                <a href="tel:01333600449" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 active:bg-blue-50 transition-all shadow-sm">
-                    <span class="text-[12px] font-bold text-slate-700 mr-2">صندوق</span>
-                    <span class="text-[#0d66a1] font-black text-[14px]">01333600449</span>
+                <a href="tel:01333600449" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 active:bg-blue-50 shadow-sm">
+                    <span class="text-[12px] font-bold text-slate-700">صندوق</span>
+                    <span class="text-[#0d66a1] font-black">01333600449</span>
                 </a>
             </div>
-            <button onclick="toggleModal(false)" class="w-full p-4 text-slate-400 text-[11px] font-bold border-t border-slate-50 hover:text-red-400">بستن پنجره</button>
+            <button onclick="toggleModal(false)" class="w-full p-4 text-slate-400 text-[11px] font-bold border-t border-slate-50">بستن</button>
         </div>
     </div>
 
@@ -158,11 +139,6 @@
         function toggleModal(show) {
             const modal = document.getElementById('contactModal');
             modal.style.display = show ? 'flex' : 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('contactModal');
-            if (event.target == modal) toggleModal(false);
         }
     </script>
 </body>
