@@ -12,80 +12,92 @@
         .bmi-card { background: linear-gradient(135deg, #0d66a1 0%, #228cc8 100%); border-radius: 40px; padding: 35px 20px; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 12px 35px rgba(13, 102, 161, 0.25); gap: 18px; }
         .digital-clock { font-size: 3.8rem; font-weight: 900; letter-spacing: -2px; line-height: 1; text-shadow: 0 0 20px rgba(255, 255, 255, 0.3); font-family: sans-serif; }
         .service-row { background: white; border-radius: 30px; padding: 18px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #f1f5f9; cursor: pointer; }
-        .bottom-card { background: white; border-radius: 30px; padding: 25px 15px; width: 48%; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #f1f5f9; cursor: pointer; }
         #contactModal { display: none; background: rgba(13, 102, 161, 0.2); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        /* استایل اسپلش اسکرین */
-        #custom-splash { position: fixed; inset: 0; z-index: 9999; background: #0d66a1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; transition: opacity 0.5s ease; }
+        
+        /* صفحه لودینگ اختصاصی */
+        #splash-screen { position: fixed; inset: 0; z-index: 9999; background: #0d66a1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; transition: opacity 0.6s ease; }
     </style>
 </head>
 <body>
 
-    <div id="custom-splash">
-        <div class="text-2xl font-black mb-2">بانک ملی ایران</div>
-        <div class="text-lg opacity-90 mb-8 font-bold">شعبه گیل رشت</div>
-        <div class="w-10 h-10 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+    <div id="splash-screen">
+        <div class="text-3xl font-black mb-2 animate-pulse">بانک ملی ایران</div>
+        <div class="text-xl opacity-90 font-bold">شعبه گیل رشت</div>
+        <div class="mt-10 w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
     </div>
 
     <div class="bmi-card mb-8">
         <div id="digiClock" class="digital-clock">00:00</div>
         <div class="flex flex-col items-center w-full gap-2">
-            <div class="bg-[#fbbf24] text-[#0d66a1] text-[11px] px-6 py-1.5 rounded-full font-black shadow-md">شعبه گیل رشت</div>
+            <div class="bg-[#fbbf24] text-[#0d66a1] text-[11px] px-6 py-1.5 rounded-full font-black">شعبه گیل رشت</div>
             <div class="text-[10px] opacity-80 font-bold">کد ۳۷۱۶</div>
-            <div class="text-[13px] font-black bg-white/10 px-8 py-2.5 rounded-full border border-white/10 backdrop-blur-md text-white">شنبه، ۶ دی ۱۴۰۴</div>
+            <div class="text-[13px] font-black bg-white/10 px-8 py-2.5 rounded-full border border-white/10 backdrop-blur-md">شنبه، ۶ دی ۱۴۰۴</div>
             <button onclick="toggleModal(true)" class="mt-2 bg-white/20 border border-white/30 px-8 py-3 rounded-full flex items-center gap-3 active:scale-95 shadow-lg">
-                <span class="text-lg">📞</span><span class="text-[13px] font-black text-white">تماس با شعبه</span>
+                <span class="text-lg">📞</span><span class="text-[13px] font-black">تماس با شعبه</span>
             </button>
-            <div class="text-[10px] font-medium opacity-90 mt-2 text-white">هرجا سخن از اعتماد است نام بانک ملی ایران میدرخشد</div>
         </div>
     </div>
 
     <div class="mb-8 px-1">
         <div class="service-row" onclick="window.location.href='https://baam.bmi.ir/fa/auth/login'">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-xl shadow-sm">🌐</div>
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-xl">🌐</div>
                 <div><div class="text-[13px] font-black text-slate-800">همراه بام ملی</div><div class="text-[10px] text-slate-400 font-bold">ورود به سامانه</div></div>
             </div>
-            <span class="text-slate-300 ml-1">❮</span>
+            <span>❮</span>
         </div>
         <div class="service-row" onclick="window.location.href='https://bamapps.bmi.ir/app/android/Baam_4.23.1.594.apk'">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shadow-sm">📥</div>
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-xl">📥</div>
                 <div><div class="text-[13px] font-black text-slate-800">دانلود نسخه اندروید</div><div class="text-[10px] text-slate-400 font-bold">دریافت مستقیم فایل</div></div>
             </div>
-            <span class="text-slate-300 ml-1">❮</span>
+            <span>❮</span>
         </div>
     </div>
 
-    <div class="flex justify-between gap-4">
-        <div class="bottom-card" onclick="window.location.href='https://bmi.ir/landing/mehrbani'"><div class="w-14 h-14 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mb-3 text-2xl">❤️</div><div class="text-[12px] font-black text-slate-700 text-center">محاسبه‌گر<br>طرح مهربانی</div></div>
-        <div class="bottom-card" onclick="window.location.href='https://bmi.ir/fa/calculators/melli'"><div class="w-14 h-14 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center mb-3 text-2xl">🧮</div><div class="text-[12px] font-black text-slate-700 text-center">محاسبه‌گر<br>طرح اعتبار ملی</div></div>
-    </div>
-
     <div id="contactModal" class="fixed inset-0 z-50 flex items-center justify-center p-6">
-        <div class="bg-white/90 w-full max-w-sm rounded-[45px] shadow-2xl overflow-hidden border border-white">
-            <div class="p-6 bg-[#0d66a1] text-white flex justify-between items-center rounded-t-[45px]"><span class="font-black text-sm">تماس با شعبه</span><button onclick="toggleModal(false)" class="text-3xl font-light">&times;</button></div>
-            <div class="p-6 space-y-3">
-                <a href="tel:01333666474" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 shadow-sm"><span class="text-[12px] font-bold text-slate-700">ریاست شعبه</span><span class="text-[#0d66a1] font-black">01333666474</span></a>
-                <a href="tel:01333609169" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 shadow-sm"><span class="text-[12px] font-bold text-slate-700">معاون شعبه</span><span class="text-[#0d66a1] font-black">01333609169</span></a>
-                <a href="tel:01333663062" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 shadow-sm"><span class="text-[12px] font-bold text-slate-700">اعتبارات</span><span class="text-[#0d66a1] font-black">01333663062</span></a>
-                <a href="tel:01333600449" class="flex justify-between items-center p-4 bg-white rounded-full border border-slate-100 shadow-sm"><span class="text-[12px] font-bold text-slate-700">صندوق</span><span class="text-[#0d66a1] font-black">01333600449</span></a>
+        <div class="bg-white/95 w-full max-w-sm rounded-[45px] shadow-2xl overflow-hidden border border-white">
+            <div class="p-6 bg-[#0d66a1] text-white flex justify-between items-center rounded-t-[45px]">
+                <span class="font-black text-sm">تماس با واحدها</span>
+                <button onclick="toggleModal(false)" class="text-3xl">&times;</button>
             </div>
-            <button onclick="toggleModal(false)" class="w-full p-4 text-slate-400 text-[11px] font-bold border-t border-slate-50">بستن</button>
+            <div class="p-6 space-y-3 text-right" dir="rtl">
+                <a href="tel:01333666474" class="flex justify-between items-center p-4 bg-slate-50 rounded-full border border-slate-100 shadow-sm">
+                    <span class="text-[12px] font-bold text-slate-700">ریاست شعبه</span>
+                    <span class="text-[#0d66a1] font-black">01333666474</span>
+                </a>
+                <a href="tel:01333609169" class="flex justify-between items-center p-4 bg-slate-50 rounded-full border border-slate-100 shadow-sm">
+                    <span class="text-[12px] font-bold text-slate-700">معاون شعبه</span>
+                    <span class="text-[#0d66a1] font-black">01333609169</span>
+                </a>
+                <a href="tel:01333663062" class="flex justify-between items-center p-4 bg-slate-50 rounded-full border border-slate-100 shadow-sm">
+                    <span class="text-[12px] font-bold text-slate-700">اعتبارات</span>
+                    <span class="text-[#0d66a1] font-black">01333663062</span>
+                </a>
+                <a href="tel:01333600449" class="flex justify-between items-center p-4 bg-slate-50 rounded-full border border-slate-100 shadow-sm">
+                    <span class="text-[12px] font-bold text-slate-700">صندوق</span>
+                    <span class="text-[#0d66a1] font-black">01333600449</span>
+                </a>
+            </div>
+            <button onclick="toggleModal(false)" class="w-full p-4 text-slate-400 text-[11px] font-bold border-t">بستن</button>
         </div>
     </div>
 
     <script>
-        function updateClock() { const now = new Date(); document.getElementById('digiClock').textContent = String(now.getHours()).padStart(2, '0') + ":" + String(now.getMinutes()).padStart(2, '0'); }
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('digiClock').textContent = String(now.getHours()).padStart(2, '0') + ":" + String(now.getMinutes()).padStart(2, '0');
+        }
         setInterval(updateClock, 1000); updateClock();
         function toggleModal(show) { document.getElementById('contactModal').style.display = show ? 'flex' : 'none'; }
         
-        // مخفی کردن اسپلش اسکرین بعد از لود
+        // حذف اسپلش اسکرین بعد از لود
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const splash = document.getElementById('custom-splash');
+                const splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
-                setTimeout(() => splash.remove(), 500);
-            }, 2000);
+                setTimeout(() => splash.remove(), 600);
+            }, 2500); // ۲.۵ ثانیه مکث برای نمایش متن شعبه
         });
     </script>
 </body>
