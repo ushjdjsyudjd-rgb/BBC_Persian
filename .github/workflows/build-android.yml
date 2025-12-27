@@ -1,4 +1,4 @@
-name: Build Android APK
+name: Build Android APK with Custom Icon
 on:
   push:
     branches: [ main ]
@@ -19,29 +19,34 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install Tools
-        run: npm install -g @capacitor/cli
-
-      - name: Prepare Web Directory and Build
+      - name: Install Dependencies
         run: |
-          # پاکسازی تداخل‌های قبلی
-          rm -rf android
-          
-          # ایجاد پوشه www و انتقال فایل‌های وب به آن
-          mkdir -p www
-          cp index.html news.html www/ 2>/dev/null || true
-          
-          # ساخت فایل پروژه
-          npm init -y
+          npm install -g @capacitor/cli @capacitor/assets
           npm install @capacitor/core @capacitor/android
-          
-          # مقداردهی اولیه با پوشه www
+
+      - name: Prepare Web Directory
+        run: |
+          mkdir -p www
+          cp index.html www/
+          # کپی کردن آیکون به پوشه اصلی برای پردازش
+          cp icon.png assets/icon-only.png 2>/dev/null || cp icon.png icon-only.png
+
+      - name: Initialize and Create Android
+        run: |
+          rm -rf android
           npx cap init "Gildokht" "com.gildokht.app" --web-dir www
-          
-          # ساخت اندروید
           npx cap add android
+
+      - name: Generate Icons
+        run: |
+          # این دستور آیکون شما را در تمام سایزهای استاندارد اندروید کپی می‌کند
+          mkdir -p assets
+          cp icon.png assets/icon.png
+          npx capacitor-assets generate --android
+
+      - name: Build APK
+        run: |
           npx cap copy
-          
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
@@ -49,5 +54,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Gildokht-Final-APK
+          name: Gildokht-With-Icon-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
