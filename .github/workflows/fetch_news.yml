@@ -1,1 +1,28 @@
+name: Fetch BBC Persian
+on:
+  schedule:
+    - cron: '*/10 * * * *' # اجرای خودکار هر ۱۰ دقیقه یک‌بار
+  workflow_dispatch: # امکان اجرای دستی برای تست
 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Fetch Website Content
+        run: |
+          # دانلود محتوای سایت و ذخیره در فایل index.html
+          curl -L "https://www.bbc.com/persian" -o index.html
+          # اصلاح آدرس‌های نسبی به مطلق (برای اینکه عکس‌ها و استایل‌ها لود شوند)
+          sed -i 's|href="/|href="https://www.bbc.com/|g' index.html
+          sed -i 's|src="/|src="https://www.bbc.com/|g' index.html
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "NewsBot"
+          git config --global user.email "bot@github.com"
+          git add index.html
+          git commit -m "Update news content" || exit 0
+          git push
