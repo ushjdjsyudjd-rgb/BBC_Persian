@@ -1,8 +1,7 @@
 {
-  "appId": "com.yourname.newsapp",
-  "appName": "اخبار نئونی",
+  "appId": "com.gildokht.app",
+  "appName": "گیلدخت",
   "webDir": ".",
-  "bundledWebRuntime": false,
   "server": {
     "allowNavigation": ["*"]
   }
