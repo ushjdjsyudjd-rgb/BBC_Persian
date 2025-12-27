@@ -7,7 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions: contents: write
+    permissions:
+      contents: write
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
@@ -28,17 +29,17 @@ jobs:
           mkdir -p www
           cp index.html www/
           mkdir -p assets
-          cp icon.png assets/icon.png
+          cp icon.png assets/icon.png 2>/dev/null || cp icon.png icon.png
 
       - name: Initialize and Create Android
         run: |
           rm -rf android
-          npx cap init "Gildokht" "com.gildokht.app" --web-dir www
+          npx cap init "گیلدخت" "com.gildokht.app" --web-dir www
           npx cap add android
 
-      - name: Generate Adaptive Icons
+      - name: Generate Assets (Fix Icon Background)
         run: |
-          # کپی کردن آیکون برای تمام لایه‌ها جهت حذف سفیدی و سیاهی دور آیکون
+          # کپی آیکون برای تمامی لایه‌ها جهت حذف سیاهی و سفیدی دور آیکون
           cp icon.png assets/icon-foreground.png
           cp icon.png assets/icon-background.png
           cp icon.png assets/splash.png
@@ -50,13 +51,15 @@ jobs:
           cd android
           chmod +x gradlew
           ./gradlew assembleRelease
+          
           # ساخت کلید ساین
           keytool -genkey -v -keystore release.keystore -alias gildokht_alias -keyalg RSA -keysize 2048 -validity 10000 -storepass 123456 -keypass 123456 -dname "CN=Gildokht, OU=Dev, O=Gildokht, L=Rasht, S=Gilan, C=IR"
-          # امضای نهایی
+          
+          # ساین کردن نهایی
           sudo apt-get install -y apksigner
           apksigner sign --ks release.keystore --ks-pass pass:123456 --out app-release-signed.apk app/build/outputs/apk/release/app-release-unsigned.apk
 
-      - name: Upload Signed APK
+      - name: Upload Official Signed APK
         uses: actions/upload-artifact@v4
         with:
           name: Gildokht-Official-Signed-APK
