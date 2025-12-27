@@ -1,7 +1,8 @@
 name: Build Android APK
 on:
   push:
-    branches: [ main ] # هر وقت کدی در شاخه اصلی تغییر کرد
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -21,19 +22,16 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Dependencies
+      - name: Build App
         run: |
-          npm install @capacitor/core @capacitor/cli @capacitor/android
-          npx cap init "MyNewsApp" "com.example.newsapp" --web-dir .
-          npx cap add android
-
-      - name: Build Android Project
-        run: |
+          npm install
+          # ایجاد پوشه اندروید اگر وجود نداشته باشد
+          npx cap android add || true 
           npx cap copy
           cd android && ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: app-debug.apk
+          name: Gildokht-App
           path: android/app/build/outputs/apk/debug/app-debug.apk
