@@ -19,18 +19,17 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install Tools & Build
+      - name: Install Capacitor Tools
+        run: npm install @capacitor/cli @capacitor/core @capacitor/android
+
+      - name: Initialize Project
+        run: npx cap init "Gildokht" "com.gildokht.app" --web-dir . --confirm
+
+      - name: Create Android Folder
+        run: npx cap add android || true
+
+      - name: Sync and Build APK
         run: |
-          # نصب ابزارهای اصلی
-          npm install @capacitor/cli @capacitor/core @capacitor/android
-          
-          # مقداردهی اولیه (اگر فایل تنظیمات نیست، خودش می‌سازد)
-          npx cap init "Gildokht" "com.gildokht.app" --web-dir . --confirm
-          
-          # اضافه کردن پلتفرم اندروید (حیاتی)
-          npx cap add android || true
-          
-          # کپی فایل‌ها و ساخت APK
           npx cap copy
           cd android
           chmod +x gradlew
